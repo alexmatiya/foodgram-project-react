@@ -1,3 +1,4 @@
 Django==4.2.1
 djoser==2.2.0
 pillow==9.5.0
+# django_extensions
