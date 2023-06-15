@@ -7,9 +7,6 @@ from django.core.management import BaseCommand
 from recipes.models import Ingredient
 
 
-MODELS_FIELDS = {}
-
-
 class Command(BaseCommand):
     help = 'Загрузка данных из csv файлов'
 
@@ -26,6 +23,6 @@ class Command(BaseCommand):
             reader = csv.reader(csv_file)
             for row in reader:
                 _, _ = Ingredient.objects.get_or_create(
-                    name=row[0].capitalize(),
+                    name=row[0].capitalize().replace('Ё', 'Е'),
                     measurement_unit=row[1],
                 )

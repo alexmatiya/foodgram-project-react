@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 
-# Create your views here.
+from api.serializers import TagSerialiser
+from recipes.models import Tag
+
+
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerialiser
+    permission_classes = (AllowAny, )
+    pagination_class = None

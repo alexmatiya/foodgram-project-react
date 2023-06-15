@@ -1,22 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
 from recipes.models import (Favorite,  Ingredient, Recipe,
                             RecipeIngredient, ShoppingCart,  Tag)
 
 
-# admin.site.register(Favorite)
-# admin.site.register(Ingredient)
-# admin.site.register(Recipe)
-# admin.site.register(RecipeIngredient)
-# admin.site.register(ShoppingCart)
-# admin.site.register(Tag)
-# admin.site.empty_value_display = '-пусто-'
-
-
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    """Админ-зона тегов."""
     list_display = ('id', 'name', 'color', 'slug')
     search_fields = ('name', 'color', 'slug')
     list_filter = ('name', 'color', 'slug')
@@ -31,12 +20,20 @@ class IngredientAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
 
 
+class RecipeIngredientInline(admin.TabularInline):
+    model = RecipeIngredient
+
+
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'author')
+    list_display = ('pk', 'name', 'author', 'favorites_amount')
     search_fields = ('name', 'author')
     list_filter = ('name', 'author', 'tags')
     empty_value_display = '-пусто-'
+    inlines = [RecipeIngredientInline, ]
+
+    def favorites_amount(self, obj):
+        return obj.favorites.count()
 
 
 @admin.register(RecipeIngredient)
