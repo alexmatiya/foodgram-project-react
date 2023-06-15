@@ -1,15 +1,25 @@
 from django.contrib import admin
-
+from django.utils.html import format_html
+from recipes.forms import TagForm
 from recipes.models import (Favorite,  Ingredient, Recipe,
                             RecipeIngredient, ShoppingCart,  Tag)
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'color', 'slug')
-    search_fields = ('name', 'color', 'slug')
-    list_filter = ('name', 'color', 'slug')
+    form = TagForm
+    list_display = ('name', 'slug', 'color_code',)
+    search_fields = ('name', 'color')
+    save_on_top = True
     empty_value_display = '-пусто-'
+
+    @admin.display(description='Colored')
+    def color_code(self, obj: Tag):
+        return format_html(
+            '<span style="color: #{};">{}</span>',
+            obj.color[1:], obj.color
+        )
+    color_code.short_description = 'Цветовой код тэга'
 
 
 @admin.register(Ingredient)
@@ -22,6 +32,7 @@ class IngredientAdmin(admin.ModelAdmin):
 
 class RecipeIngredientInline(admin.TabularInline):
     model = RecipeIngredient
+    extra = 3
 
 
 @admin.register(Recipe)
