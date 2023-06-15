@@ -1,12 +1,22 @@
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.filters import SearchFilter
 
-from api.serializers import TagSerialiser
-from recipes.models import Tag
+from api.serializers import IngredientSerializer, TagSerialiser
+from recipes.models import Ingredient, Tag
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerialiser
-    permission_classes = (AllowAny, )
+    permission_classes = (AllowAny,)
     pagination_class = None
+
+
+class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
+    # https://www.django-rest-framework.org/api-guide/filtering/
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredientSerializer
+    permission_classes = (AllowAny,)
+    filter_backends = (SearchFilter,)
+    search_fields = ('^name',)
