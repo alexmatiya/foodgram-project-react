@@ -4,9 +4,13 @@ from recipes.models import Tag
 
 
 class TagForm(ModelForm):
+    """
+    Форма выбора цвета в админке
+    https://django.fun/ru/docs/django/4.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.form
+    """
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = ('name', 'color', 'slug')
         widgets = {
             'color': TextInput(attrs={'type': 'color'}),
         }

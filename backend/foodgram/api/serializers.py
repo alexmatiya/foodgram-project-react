@@ -14,8 +14,12 @@ class UserSignUpSerializer(UserCreateSerializer):
     """Сериализатор для регистрации пользователя."""
     class Meta:
         model = User
-        fields = ('email', 'id', 'username', 'first_name',
-                  'last_name', 'password')
+        fields = ('email',
+                  'id',
+                  'username',
+                  'first_name',
+                  'last_name',
+                  'password')
 
 
 class UserGetSerializer(UserSerializer):
@@ -24,8 +28,12 @@ class UserGetSerializer(UserSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'id', 'username', 'first_name',
-                  'last_name', 'is_subscribed')
+        fields = ('email',
+                  'id',
+                  'username',
+                  'first_name',
+                  'last_name',
+                  'is_subscribed')
 
     def get_is_subscribed(self, obj):
         request = self.context.get('request')
@@ -77,7 +85,7 @@ class UserSubscribeRepresentSerializer(UserGetSerializer):
                                      context={'request': request}).data
 
     def get_recipes_count(self, obj):
-        """Общее количество рецептов у каждого автора."""
+        """Kоличество рецептов у каждого автора."""
         return obj.recipes.count()
 
 
@@ -90,33 +98,35 @@ class UserSubscribeSerializer(serializers.ModelSerializer):
             UniqueTogetherValidator(
                 queryset=Subscription.objects.all(),
                 fields=('user', 'author'),
-                message='Вы уже подписаны на этого пользователя'
-            )
-        ]
+                message='Вы уже подписаны на этого пользователя')]
 
     def validate(self, data):
         request = self.context.get('request')
         if request.user == data['author']:
             raise serializers.ValidationError(
-                'Нельзя подписываться на самого себя!'
-            )
+                'Нельзя подписываться на самого себя!')
         return data
 
     def to_representation(self, instance):
         request = self.context.get('request')
         return UserSubscribeRepresentSerializer(
-            instance.author, context={'request': request}
-        ).data
+            instance.author, context={'request': request}).data
 
 
 class RecipeSmallSerializer(serializers.ModelSerializer):
     """Сериализатор для работы с краткой информацией о рецепте."""
     class Meta:
         model = Recipe
-        fields = ('id', 'name', 'image', 'cooking_time')
+        fields = ('id',
+                  'name',
+                  'image',
+                  'cooking_time')
 
 
 class TagSerialiser(serializers.ModelSerializer):
+    """
+    Сериализатор для Тегов
+    """
     class Meta:
         model = Tag
         fields = '__all__'
@@ -156,7 +166,8 @@ class IngredientPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeIngredient
-        fields = ('id', 'amount')
+        fields = ('id',
+                  'amount')
 
 
 class RecipeGetSerializer(serializers.ModelSerializer):
@@ -259,9 +270,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
             UniqueTogetherValidator(
                 queryset=Favorite.objects.all(),
                 fields=('user', 'recipe'),
-                message='Рецепт уже добавлен в избранное'
-            )
-        ]
+                message='Рецепт уже добавлен в избранное')]
 
     def to_representation(self, instance):
         request = self.context.get('request')
@@ -280,9 +289,7 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
             UniqueTogetherValidator(
                 queryset=ShoppingCart.objects.all(),
                 fields=('user', 'recipe'),
-                message='Рецепт уже добавлен в список покупок'
-            )
-        ]
+                message='Рецепт уже добавлен в список покупок')]
 
     def to_representation(self, instance):
         request = self.context.get('request')

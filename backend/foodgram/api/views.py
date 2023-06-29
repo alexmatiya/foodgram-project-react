@@ -1,4 +1,4 @@
-from datetime import datetime as dt
+from datetime import datetime
 from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import HttpResponse, get_object_or_404
@@ -66,24 +66,22 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     # https://www.django-rest-framework.org/api-guide/filtering/#searchfilter
-    queryset = Ingredient.objects.all()
-    serializer_class = IngredientSerializer
-    permission_classes = (AllowAny,)
     filter_backends = (SearchFilter,)
+    permission_classes = (AllowAny,)
+    queryset = Ingredient.objects.all()
     search_fields = ('^name',)
+    serializer_class = IngredientSerializer
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    """Работа с рецептами. Создание/изменение/удаление рецепта.
-    Получение информации о рецептах.
-    Добавление рецептов в избранное и список покупок.
-    Отправка файла со списком рецептов.
     """
-    queryset = Recipe.objects.all()
-    permission_classes = (IsAdminAuthorOrReadOnly, )
+    Работа с рецептами.
+    """
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
     http_method_names = ['get', 'post', 'patch', 'delete']
+    permission_classes = (IsAdminAuthorOrReadOnly, )
+    queryset = Recipe.objects.all()
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
@@ -145,7 +143,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ).annotate(ingredient_amount=Sum('amount'))
         shopping_list = [
             f'Покупки для: {user.first_name}\n'
-            f'Дата покупки: {dt.now().strftime("%d-%m-%Y")}\n'
+            f'Дата покупки: {datetime.now().strftime("%d-%m-%Y")}\n'
             f'Всего нужно купить продуктов: {len(ingredients)}\n'
         ]
         for ingredient in ingredients:
@@ -154,6 +152,5 @@ class RecipeViewSet(viewsets.ModelViewSet):
             amount = ingredient['ingredient_amount']
             shopping_list.append(f'\n{name} - {amount}, {measurement_unit}.')
         response = HttpResponse(shopping_list, content_type='text/plain')
-        response['Content-Disposition'] = \
-            f'attachment; filename={filename}'
+        response['Content-Disposition'] = f'attachment; filename={filename}'
         return response

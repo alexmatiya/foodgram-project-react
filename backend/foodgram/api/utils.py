@@ -15,26 +15,25 @@ class Base64ImageField(serializers.ImageField):
             format, imgstr = data.split(';base64,')
             ext = format.split('/')[-1]
             data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-
         return super().to_internal_value(data)
 
 
 def create_ingredients(ingredients, recipe):
     """Вспомогательная функция для добавления ингредиентов.
     Используется при создании/редактировании рецепта."""
-    ingredient_list = []
+    list_ingredient_for_cart_list = []
     for ingredient in ingredients:
         current_ingredient = get_object_or_404(Ingredient,
                                                id=ingredient.get('id'))
-        amount = ingredient.get('amount')
-        ingredient_list.append(
+        amount_infredient = ingredient.get('amount')
+        list_ingredient_for_cart_list.append(
             RecipeIngredient(
                 recipe=recipe,
                 ingredient=current_ingredient,
-                amount=amount
+                amount=amount_infredient
             )
         )
-    RecipeIngredient.objects.bulk_create(ingredient_list)
+    RecipeIngredient.objects.bulk_create(list_ingredient_for_cart_list)
 
 
 def create_model_instance(request, instance, serializer_name):
