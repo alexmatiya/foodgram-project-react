@@ -9,7 +9,13 @@ from recipes.models import Ingredient, RecipeIngredient
 
 
 class Base64ImageField(serializers.ImageField):
-    """Вспомогательный класс для работы с изображениями."""
+    """
+    При публикации рецепта фронтенд кодирует картинку в строку base64;
+    на бэкенде её необходимо декодировать и сохранить как файл.
+    Для этого будет удобно создать кастомный тип поля для картинки,
+    переопределив метод сериализатора to_internal_value.
+
+    Вспомогательный класс для работы с изображениями."""
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):
             format, imgstr = data.split(';base64,')

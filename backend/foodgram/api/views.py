@@ -6,9 +6,11 @@ from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.filters import SearchFilter
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_400_BAD_REQUEST
+from django_filters.rest_framework import filters
 
 from api.filters import RecipeFilter
 from api.permissions import IsAdminAuthorOrReadOnly
@@ -50,7 +52,9 @@ class UserSubscribeView(APIView):
 
 class UserSubscriptionsViewSet(mixins.ListModelMixin,
                                viewsets.GenericViewSet):
-    """Получение списка всех подписок на пользователей."""
+    """
+    Получение списка всех подписок на пользователей.
+    """
     serializer_class = UserSubscribeRepresentSerializer
 
     def get_queryset(self):
@@ -65,12 +69,13 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
-    # https://www.django-rest-framework.org/api-guide/filtering/#searchfilter
-    filter_backends = (SearchFilter,)
+    # https://django.fun/ru/docs/django-rest-framework/3.12/api-guide/filtering/#searchfilter
     permission_classes = (AllowAny,)
     queryset = Ingredient.objects.all()
-    search_fields = ('^name',)
     serializer_class = IngredientSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['^name']
+    pagination_class = None
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
