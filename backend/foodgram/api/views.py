@@ -64,8 +64,8 @@ class UserSubscriptionsViewSet(mixins.ListModelMixin,
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerialiser
-    permission_classes = (AllowAny,)
     pagination_class = None
+    permission_classes = (AllowAny,)
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):

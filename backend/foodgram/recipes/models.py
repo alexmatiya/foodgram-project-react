@@ -7,6 +7,12 @@ from users.models import User
 # Create your models here.
 class Tag(models.Model):
     """
+    Тег должен описываться такими полями:
+    Название.
+    Цветовой HEX-код (например, #49B64E).
+    Slug.
+    Все поля обязательны для заполнения и уникальны.
+
     Модель для группировки рецептов по тэгам.
     Связь с Recipe многие ко многим
     """
@@ -14,16 +20,18 @@ class Tag(models.Model):
         max_length=200,
         unique=True,
         verbose_name="Название",
+        help_text='Название тега',
     )
     color = models.CharField(
         max_length=7,
-        unique=True,
         verbose_name="Цвет в HEX",
+        help_text='Выберите цвет для тега в HEX, например, #49B64E',
     )
     slug = models.SlugField(
         max_length=200,
         unique=True,
         verbose_name="Уникальный слаг",
+        help_text='Придумайте уникальный URL адрес для тега',
     )
 
     class Meta:
@@ -43,11 +51,13 @@ class Ingredient(models.Model):
         help_text="Введите название ингредиента",
         max_length=200,
         verbose_name="Название",
+        blank=False,
     )
     measurement_unit = models.CharField(
         help_text="Введите единицу измерения",
         max_length=200,
         verbose_name="Единица измерения",
+        blank=False,
     )
 
     class Meta:
