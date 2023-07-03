@@ -1,9 +1,6 @@
 from django.contrib import admin
-from django.utils.html import format_html
 from recipes.models import (Favorite,  Ingredient, Recipe,
                             RecipeIngredient, ShoppingCart,  Tag)
-
-
 
 
 @admin.register(Tag)
@@ -34,11 +31,12 @@ class RecipeAdmin(admin.ModelAdmin):
     Модель рецептов:
     В списке рецептов вывести название и автора рецепта.
     Добавить фильтры по автору, названию рецепта, тегам.
-    На странице рецепта вывести общее число добавлений этого рецепта в избранное.
+    На странице рецепта вывести общее число добавлений этого рецепта
+    в избранное.
     """
     list_display = ('pk', 'name', 'author', 'favorites_count')
     list_filter = ('author', 'name', 'tags')
-    inlines = (RecipeIngredientInline, )
+    inlines = (RecipeIngredientInline,)
 
     def favorites_count(self, obj):
         return obj.favorites.count()
