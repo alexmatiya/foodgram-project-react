@@ -17,10 +17,10 @@ class Command(BaseCommand):
                 last_name=f'last_name_{username}')
 
         User.objects.create_user(
-                username='newadmin',
-                email='email@newadmin.com',
-                password='1234567890',
-                first_name='first_name_newadmin',
-                last_name='last_name_newadmin',
-                is_staff=True,
-                is_superuser=True)
+            username='newadmin',
+            email='email@newadmin.com',
+            password='1234567890',
+            first_name='first_name_newadmin',
+            last_name='last_name_newadmin',
+            is_staff=True,
+            is_superuser=True)

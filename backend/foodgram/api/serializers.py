@@ -11,7 +11,9 @@ from recipes.models import (Favorite, Ingredient,
 
 
 class RecipeShortSerializer(serializers.ModelSerializer):
-    """Сериализатор для работы с краткой информацией о рецепте."""
+    """
+    Сериализатор для работы с краткой информацией о рецепте.
+    """
     class Meta:
         model = Recipe
         fields = ('id',
@@ -81,7 +83,7 @@ class UserSubscribeRepresentSerializer(UserGetSerializer):
             'is_subscribed',
             'recipes',
             'recipes_count'
-            )
+        )
 
     def get_recipes(self, obj):
         request = self.context.get('request')

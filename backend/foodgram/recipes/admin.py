@@ -1,6 +1,6 @@
 from django.contrib import admin
-from recipes.models import (Favorite,  Ingredient, Recipe,
-                            RecipeIngredient, ShoppingCart,  Tag)
+from recipes.models import (Favorite, Ingredient, Recipe,
+                            RecipeIngredient, ShoppingCart, Tag)
 
 
 @admin.register(Tag)
@@ -36,7 +36,7 @@ class RecipeAdmin(admin.ModelAdmin):
     """
     list_display = ('pk', 'name', 'author', 'favorites_count')
     list_filter = ('author', 'name', 'tags')
-    inlines = (RecipeIngredientInline,)
+    inlines = (RecipeIngredientInline, )
 
     def favorites_count(self, obj):
         return obj.favorites.count()
