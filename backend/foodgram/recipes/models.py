@@ -112,7 +112,7 @@ class Recipe(models.Model):
         verbose_name_plural = 'Рецепты'
 
     def __str__(self):
-        return f'Рецепет "{self.name}" от {self.author}'
+        return f'{self.pk}: Рецепет "{self.name}" от {self.author}'
 
 
 class RecipeIngredient(models.Model):
@@ -148,7 +148,12 @@ class RecipeIngredient(models.Model):
 
 class Favorite(models.Model):
     """
-    Избранные пользователем рецепты
+    Список избранного
+    Работа со списком избранного доступна только авторизованному пользователю. Список избранного может просматривать только его владелец.
+    Сценарий поведения пользователя:
+    Пользователь отмечает один или несколько рецептов кликом по кнопке «Добавить в избранное».
+    Пользователь переходит на страницу «Список избранного» и просматривает персональный список избранных рецептов.
+    При необходимости пользователь может удалить рецепт из избранного.
     """
     user = models.ForeignKey(
         User,
@@ -171,8 +176,8 @@ class Favorite(models.Model):
                 name="unique_user_recipe_favorite"
             )
         ]
-        verbose_name = 'Избранное'
-        verbose_name_plural = "Избранные"
+        verbose_name = 'Избранный рецепт'
+        verbose_name_plural = "Избранные рецепты"
 
     def __str__(self):
         return f'{self.user.username} добавил в избраннное {self.recipe.name}'
