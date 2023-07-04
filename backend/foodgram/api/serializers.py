@@ -60,7 +60,7 @@ class UserGetSerializer(UserSerializer):
             request.user.is_authenticated
             and Subscription.objects.filter(
                 user=request.user, author=obj
-                ).exists()
+            ).exists()
         )
 
 
@@ -243,7 +243,7 @@ class RecipeGetSerializer(serializers.ModelSerializer):
             request.user.is_authenticated
             and Favorite.objects.filter(
                 user=request.user, recipe=obj
-                ).exists()
+            ).exists()
         )
 
     def get_is_in_shopping_cart(self, obj):
@@ -252,7 +252,7 @@ class RecipeGetSerializer(serializers.ModelSerializer):
             request.user.is_authenticated
             and ShoppingCart.objects.filter(
                 user=request.user, recipe=obj
-                ).exists()
+            ).exists()
         )
 
 
