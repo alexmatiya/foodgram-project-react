@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+
 from recipes.models import Ingredient, RecipeIngredient
 
 
@@ -9,8 +10,10 @@ def create_ingredients(ingredients, recipe):
     """
     list_ingredients = []
     for ingredient in ingredients:
-        cur_ingredient = get_object_or_404(Ingredient,
-                                           id=ingredient.get('id'))
+        cur_ingredient = get_object_or_404(
+            Ingredient,
+            id=ingredient.get('id')
+        )
         infredient_amount = ingredient.get('amount')
         list_ingredients.append(
             RecipeIngredient(

@@ -1,10 +1,10 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from recipes.validators import color_hex_validator
 from users.models import User
 
 
-# Create your models here.
 class Tag(models.Model):
     """
     Тег должен описываться такими полями:
@@ -26,6 +26,7 @@ class Tag(models.Model):
         max_length=7,
         verbose_name="Цвет в HEX",
         help_text='Выберите цвет для тега в HEX, например, #49B64E',
+        validators=(color_hex_validator,)
     )
     slug = models.SlugField(
         max_length=200,
@@ -79,7 +80,6 @@ class Recipe(models.Model):
         verbose_name="Автор рецепта",
     )
     cooking_time = models.PositiveSmallIntegerField(
-        default=1,
         validators=[MinValueValidator(1, 'Значение не может быть меньше 1')],
         verbose_name="Время приготовления в минутах",
     )
@@ -120,7 +120,6 @@ class RecipeIngredient(models.Model):
     Промежуточная таблица между Recipe и Ingredient
     """
     amount = models.IntegerField(
-        default=1,
         validators=[MinValueValidator(
             1, 'Количество выбранных ингредиентов не может быть меньше 1')],
         verbose_name="Количество",

@@ -1,25 +1,25 @@
 from datetime import datetime
+
 from django.db.models import Sum
-from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import HttpResponse, get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.filters import SearchFilter
-
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
 
 from api.filters import RecipeFilter
 from api.permissions import IsAdminAuthorOrReadOnly
 from api.serializers import (FavoriteSerializer, IngredientSerializer,
-                             RecipeCreateSerializer,
-                             RecipeGetSerializer, ShoppingCartSerializer,
-                             TagSerialiser, UserSubscribeSerializer,
-                             UserSubscribeRepresentSerializer)
-from recipes.models import (Favorite, Ingredient, Recipe,
-                            RecipeIngredient, ShoppingCart, Tag)
+                             RecipeCreateSerializer, RecipeGetSerializer,
+                             ShoppingCartSerializer, TagSerialiser,
+                             UserSubscribeRepresentSerializer,
+                             UserSubscribeSerializer)
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                            ShoppingCart, Tag)
 from users.models import Subscription, User
 
 
@@ -66,7 +66,6 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
-    # https://django.fun/ru/docs/django-rest-framework/3.12/api-guide/filtering/#searchfilter
     permission_classes = (AllowAny,)
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
