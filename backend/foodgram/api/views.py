@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 
 from django.db.models import Sum
 from django.shortcuts import HttpResponse, get_object_or_404
@@ -166,7 +166,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         shopping_list = []
         header_text = [
             f'Покупки для: {user.first_name}\n'
-            f'Дата покупки: {datetime.now().strftime("%d-%m-%Y")}\n'
+            f'Дата покупки: {timezone.now().strftime("%d-%m-%Y")}\n'
             f'Всего нужно купить продуктов: {len(ingredients)}\n'
             '------------------------------------------\n'
         ]

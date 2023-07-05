@@ -9,8 +9,3 @@ color_hex_validator = RegexValidator(
     _("Enter a valid hex color, eg. #000000"),
     "invalid",
 )
-
-# нашел в django-colorfield, подойдет также если будет hexe
-# или вообще создать свое поле  ColorField в котором уже будут
-# и валидаторы и остальные плюшки
-# https://github.com/fabiocaccamo/django-colorfield/blob/main/colorfield/validators.py
