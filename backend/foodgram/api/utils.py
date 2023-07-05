@@ -13,9 +13,9 @@ from recipes.models import Ingredient, RecipeIngredient
 #     for ingredient in ingredients:
 #         cur_ingredient = get_object_or_404(
 #             Ingredient,
-#             id=ingredient.get('id') 
+#             id=ingredient.get('id')
 #         )
-        
+
 #         ingredient_amount = ingredient.get('amount')
 #         list_ingredients.append(
 #             RecipeIngredient(
@@ -27,11 +27,9 @@ from recipes.models import Ingredient, RecipeIngredient
 #     RecipeIngredient.objects.bulk_create(list_ingredients)
 
 
-
 # про лишний запрос написал в пачку, возможно таким способом
 # смогу немного нагрузку на БД снизить
 # все коменту удалю после ревью
-
 
 def create_ingredients(ingredients, recipe):
     """Функция для добавления ингредиентов.
