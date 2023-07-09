@@ -10,4 +10,4 @@ COPY foodgram/ .
 
 #CMD ["gunicorn", "foodgram.wsgi:application", "--bind", "0:8000" ]
 CMD ["python3", "manage.py", "runserver", "0:8000"] 
-###
+####
