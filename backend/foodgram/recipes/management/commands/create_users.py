@@ -10,7 +10,7 @@ class Command(BaseCommand):
             username = str(i) + "username"
             User.objects.create_user(
                 username=username,
-                email=f'email@{username}.com',
+                email=f'{username}@mail.com',
                 password='1234567890',
                 first_name=f'first_name_{username}',
                 last_name=f'last_name_{username}')
