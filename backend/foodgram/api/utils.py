@@ -1,8 +1,7 @@
 # from django.shortcuts import get_object_or_404
-from django.core.exceptions import ObjectDoesNotExist
+# from django.core.exceptions import ObjectDoesNotExist
 
-from recipes.models import Ingredient, RecipeIngredient
-
+from recipes.models import RecipeIngredient
 
 # def create_ingredients(ingredients, recipe):
 #     """Функция для добавления ингредиентов.
